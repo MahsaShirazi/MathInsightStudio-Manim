@@ -1,0 +1,13 @@
+# Manim build artifacts
+media/
+**/__pycache__/
+.venv/
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.mp4
+*.mov
+*.png
+*.json
