@@ -2,7 +2,7 @@ from manim import *
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.integrate import odeint
-from utils import set_zoom
+from shared.utils import set_zoom
 
 # Define the Lorenz system of differential equations
 
