@@ -1,4 +1,7 @@
 from manim import *
+from manim.opengl import *
+
+DEV_MODE = True  # set to False for final video
 
 # Colors
 #COL_OAT  = TEAL_D
@@ -8,7 +11,7 @@ from manim import *
 #COL_ROW  = ORANGE
 #COL_COL  = GREEN_D
 
-BG = "#080818"
+BG ="#080818"\
 
 # Per cup vectors (cal, protein, sugar)
 OAT_VEC  = [120, 3, 7]
@@ -39,17 +42,20 @@ class IntroMotivationExample(Scene):
         oat_name  = Text("Oat milk", font_size=38, color=YELLOW)
         yog_name  = Text("Greek yogurt", font_size=38, color=BLUE)
         rasp_name = Text("Raspberries", font_size=38, color=RED)
-        names_center = VGroup(oat_name, yog_name, rasp_name).arrange(DOWN, buff=0.35).move_to(ORIGIN+UP*0.3)
+        names_center = VGroup(oat_name, yog_name, rasp_name).arrange(  RIGHT, buff=0.5).move_to(ORIGIN+UP*0.9)
 
         self.play(LaggedStart(FadeIn(oat_name), FadeIn(yog_name), FadeIn(rasp_name), lag_ratio=0.2, run_time=1.0))
         self.wait(0.6)
 
+        if DEV_MODE:
+            self.interactive_embed()
+
         # Plan final top-left positions (grid anchor)
         # Anchor: top-left region for the header row (names + "1 cup")
-        header_left = LEFT*5.2 + UP*2.1  # tweak if needed
-        x_gap = 3.1
+        header_left = LEFT*5 + UP*2.1  # tweak if needed
+        x_gap = 2.1
         y_gap = 0.45
-
+ 
         # Prepare "1 cup" labels to appear under each name after moving
         cup_oat  = Text("1 cup", font_size=32, color=YELLOW)
         cup_yog  = Text("1 cup", font_size=32, color=BLUE)
@@ -71,6 +77,9 @@ class IntroMotivationExample(Scene):
             FadeIn(cup_rasp.next_to(rasp_name, DOWN, buff=0.12)),
             run_time=0.6
         )
+
+        if DEV_MODE:
+            self.interactive_embed()
 
         # ---------- 2) Nutrient rows under each ingredient ----------
         row_labels = VGroup(
@@ -94,6 +103,9 @@ class IntroMotivationExample(Scene):
         col_oat  = make_col(OAT_VEC,  YELLOW,  0)
         col_yog  = make_col(YOG_VEC,  BLUE,  1)
         col_rasp = make_col(RASP_VEC, RED, 2)
+
+
+
 
         # Show row labels and columns; briefly highlight entries column-by-column
         self.play(FadeIn(row_labels, shift=RIGHT, run_time=0.5))

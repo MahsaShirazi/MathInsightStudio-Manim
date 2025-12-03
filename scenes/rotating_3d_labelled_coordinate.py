@@ -15,28 +15,24 @@ class RotatingThreeDCoordinate(ThreeDScene):
     
         # Set up camera orientation and background
         self.set_camera_orientation(phi = 60*DEGREES, theta = 45*DEGREES)
-        self.camera.background_color = DARK_BLUE
+        self.camera.background_color = "#080818"
 
         # Set up axes labels
         x_label = MathTex("x")
         y_label = MathTex("y")
         z_label = MathTex("z")
 
+        #Place labels at the end of each axis
         x_label.move_to(self.axes.c2p(self.axes.x_range[1]+0.5,0,0))
         y_label.move_to(self.axes.c2p(0,self.axes.y_range[1]+0.5,0))
         z_label.move_to(self.axes.c2p(0,0,self.axes.z_range[1]+0.5))
 
-        #x_label.rotate(PI/2, axis=RIGHT)
-        #y_label.rotate(PI/2, axis=RIGHT).rotate(PI/2, axis=UP).rotate(PI/4, axis=OUT)
-
+        # Ensure labels facethe camera during rotation
         self.add_fixed_orientation_mobjects(x_label, y_label, z_label)
-        #self.add(x_label, y_label, z_label)
-
-        self.begin_ambient_camera_rotation(rate=0.1)
         
-
-        self.interactive_embed()
-
+        # Play animation to rotate the camera around the z-axes
+        self.begin_ambient_camera_rotation(rate=0.1)
+        #self.interactive_embed()
         self.wait(10)
         self.stop_ambient_camera_rotation()
 
