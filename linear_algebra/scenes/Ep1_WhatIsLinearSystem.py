@@ -259,91 +259,95 @@ class IntroMotivationExample_v2(Scene):
         self.play(
             FadeOut(box_oat),
             FadeOut(box_yog),
-            FadeOut(box_rasp),
-            run_time=0.6
+            FadeOut(box_rasp)
         )
 
-        # --- Distribute x_1 along oat column entries ---
+        # --- x1 distributed to the right of each oat entry ---
         x1_row_factors = VGroup()
         for entry in col_oat:
             x1_copy = x1_scalar.copy().scale(0.8)
-            x1_copy.next_to(entry, LEFT, buff=0.12)
+            x1_copy.next_to(entry, RIGHT, buff=0.12)
             x1_row_factors.add(x1_copy)
+
+        # Align all x1 copies under each other (vertical alignment)
+        x1_row_factors.arrange(DOWN, buff=0.45)
+        x1_row_factors.move_to(col_oat.get_right() + RIGHT * 0.3)
 
         self.play(
             *[TransformFromCopy(x1_scalar, x1_copy) for x1_copy in x1_row_factors],
+            FadeOut(x1_scalar),
             run_time=1.0
         )
-        self.play(FadeOut(x1_scalar), run_time=0.4)
 
-        # --- Distribute x_2 along yogurt column entries ---
+        # --- x2 distributed to the right of each yog entry ---
         x2_row_factors = VGroup()
         for entry in col_yog:
             x2_copy = x2_scalar.copy().scale(0.8)
-            x2_copy.next_to(entry, LEFT, buff=0.12)
+            x2_copy.next_to(entry, RIGHT, buff=0.12)
             x2_row_factors.add(x2_copy)
+
+        x2_row_factors.arrange(DOWN, buff=0.45)
+        x2_row_factors.move_to(col_yog.get_right() + RIGHT * 0.3)
 
         self.play(
             *[TransformFromCopy(x2_scalar, x2_copy) for x2_copy in x2_row_factors],
+            FadeOut(x2_scalar),
             run_time=1.0
         )
-        self.play(FadeOut(x2_scalar), run_time=0.4)
 
-        # --- Distribute x_3 along raspberry column entries ---
+
+        # --- x3 distributed to the right of each rasp entry ---
         x3_row_factors = VGroup()
         for entry in col_rasp:
             x3_copy = x3_scalar.copy().scale(0.8)
-            x3_copy.next_to(entry, LEFT, buff=0.12)
+            x3_copy.next_to(entry, RIGHT, buff=0.12)
             x3_row_factors.add(x3_copy)
+
+        x3_row_factors.arrange(DOWN, buff=0.45)
+        x3_row_factors.move_to(col_rasp.get_right() + RIGHT * 0.3)
 
         self.play(
             *[TransformFromCopy(x3_scalar, x3_copy) for x3_copy in x3_row_factors],
+            FadeOut(x3_scalar),
             run_time=1.0
         )
-        self.play(FadeOut(x3_scalar), run_time=0.4)
 
         # ------------------------------------------------------------------
-        # 2) Duplicate plus signs and equality into row-wise versions
+        # 2) Duplicate plus signs and equality into row-wise versions,
+        #    aligned with the new x_i copies and target entries
         # ------------------------------------------------------------------
 
-        # We'll create 3 copies of each plus and eq, one per row
         plus1_row_copies = VGroup()
         plus2_row_copies = VGroup()
         eq_row_copies    = VGroup()
 
         for i in range(3):
-            # + between x_1 * row_i and x_2 * row_i
+            # + between the x1-row term and x2-row term (cal/protein/sugar rows)
             p1 = plus1.copy().scale(0.9)
-            p1.next_to(x2_row_factors[i], LEFT, buff=0.1)
+            p1.next_to(x1_row_factors[i], RIGHT, buff=0.12)
             plus1_row_copies.add(p1)
 
-            # + between x_2 * row_i and x_3 * row_i
+            # + between the x2-row term and x3-row term
             p2 = plus2.copy().scale(0.9)
-            p2.next_to(x3_row_factors[i], LEFT, buff=0.1)
+            p2.next_to(x2_row_factors[i], RIGHT, buff=0.12)
             plus2_row_copies.add(p2)
 
-            # = before target row entry
+            # = just before the target entry in that row
             e = eq.copy().scale(0.9)
-            e.next_to(tgt_col[i], LEFT, buff=0.2)
+            e.next_to(tgt_col[i], LEFT, buff=0.15)
             eq_row_copies.add(e)
 
-        # Animate copies being created from the original symbols
+        # Animate the single-line +, +, = "splitting" into row-wise copies
         self.play(
             *[TransformFromCopy(plus1, p) for p in plus1_row_copies],
             *[TransformFromCopy(plus2, p) for p in plus2_row_copies],
             *[TransformFromCopy(eq,   e) for e in eq_row_copies],
-            run_time=1.3
-        )
-
-        # Fade out the original single-line symbols and the old question mark
-        self.play(
             FadeOut(plus1),
             FadeOut(plus2),
             FadeOut(eq),
             FadeOut(qmark),
-            run_time=0.8
+            run_time=1.3
         )
-        
         if DEV_MODE:
             self.interactive_embed()
 
